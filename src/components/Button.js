@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Pressable,
   PressableProps,
   StyleProp,
   StyleSheet,
@@ -12,9 +13,9 @@ import {PrimaryColors, SecondaryColors} from '../theme/colors';
 import {unitH, unitW} from '../theme/constant';
 
 export const ButtonType = {
-  PRIMARY,
-  SECONDARY,
-  WHITE,
+  PRIMARY: "PRIMARY",
+  SECONDARY: "SECONDARY",
+  WHITE: "WHITE",
 }
 
 export default function Button({
@@ -26,10 +27,10 @@ export default function Button({
   onLayout,
 }) {
   return (
-    <AlexPressable
+    <Pressable
       onLayout={onLayout}
       disabled={disabled}
-      style={[styles.pressableStyle, pressableStyles[type], containerStyle]}
+      style={[styles.pressableStyle, containerStyle]}
       onPress={onPress}>
       <Text
         type={TextType.BUTTON_1}
@@ -42,7 +43,7 @@ export default function Button({
         }}>
         {title}
       </Text>
-    </AlexPressable>
+    </Pressable>
   );
 }
 
@@ -52,13 +53,13 @@ export const BorderRoundedButton = ({
   style,
 }) => {
   return (
-    <AlexPressable
+    <Pressable
       style={[styles.borderRoundedButton, style]}
       onPress={onPress}>
       <Text type={TextType.BUTTON_2} style={styles.textStyle}>
         {title}
       </Text>
-    </AlexPressable>
+    </Pressable>
   );
 };
 
@@ -75,7 +76,6 @@ export const ButtonRow = ({
 
 const styles = StyleSheet.create({
   pressableStyle: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     height: 158 * unitH,

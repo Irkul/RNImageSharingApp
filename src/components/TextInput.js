@@ -33,8 +33,6 @@ const styles = StyleSheet.create({
     paddingVertical: (unitH * (158 - 72)) / 3, // height - fontSize
     paddingHorizontal: unitW * 40,
     borderRadius: 5,
-    backgroundColor: PrimaryColors.White,
-    color: PrimaryColors.Red,
   },
 });
 

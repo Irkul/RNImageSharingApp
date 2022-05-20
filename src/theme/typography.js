@@ -24,7 +24,7 @@ export const TextType = {
 }
 
 const headerBase = {
-  color: PrimaryColors.White,
+  color: PrimaryColors.Black,
 //   fontFamily: '',
   fontWeight: '500',
   textAlign: 'center',
@@ -37,7 +37,7 @@ const bodyBase = {
 };
 
 const buttonBase = {
-  color: PrimaryColors.White,
+  color: PrimaryColors.Black,
 //   fontFamily: '',
   fontWeight: '600',
   textAlign: 'center',
@@ -118,6 +118,5 @@ export const TextStyles = StyleSheet.create({
     ...bodyBase,
     textAlign: 'left',
     fontSize: 72 * unitH,
-    color: PrimaryColors.Red,
   }
 });

@@ -12,7 +12,7 @@ const statusBarHeight = getStatusBarHeight();
 const BlankScreenTemplate = (props) => {
 
     const { isLoading } = useContext(AuthContext);
-    const {children} = props;
+    const {children, contentStyle} = props;
 
     return(
         <View style={styles.page_wrapper}>
@@ -22,7 +22,7 @@ const BlankScreenTemplate = (props) => {
                 color={PrimaryColors.Blue}
             />
             <StatusBar translucent backgroundColor="transparent" barStyle="dark-content"/>
-            <View style={styles.container}>
+            <View style={{...styles.container, ...contentStyle}}>
                 {children}
             </View>
         </View>

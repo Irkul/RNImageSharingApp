@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import BottomNavigation from './bottomNavigation';
 import {
-    SplashScreen,
     LoginScreen,
     RegisterScreen,
 } from '../screens';
@@ -30,10 +29,6 @@ export default StackScreen = () => {
             // initialRouteName= {firstScreen}
             initialRouteName= {"LoginScreen"}
         >
-            <Stack.Screen
-                name="SplashScreen"
-                component={SplashScreen}
-            />
             <Stack.Screen
                 name="LoginScreen"
                 component={LoginScreen}
