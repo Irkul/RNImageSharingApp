@@ -1,10 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 
 export const RegisterScreen = () => {
     return (
         <View>
-            RegisterScreen
+            <Text>RegisterScreen</Text>
+            
         </View>
     );
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import {AuthContextProvider} from './AuthContext';
 import {AppContextProvider} from './AppContext';
 
-const Provider = () => {
+const Provider = props => {
   return (
     <AuthContextProvider>
       <AppContextProvider>

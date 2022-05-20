@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { StackScreen } from './stackNavigations';
+import StackScreen from './stackNavigation';
 
 
 const RootNavigator = () => {

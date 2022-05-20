@@ -3,21 +3,21 @@ import { Image, View, StyleSheet, Text, } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import {
-    ListScreen,
-    PurchaseItemsScreen,
-    ContactScreen,
-    PartnersScreen,
-} from 'src/screens';
+    HomeScreen,
+    PostScreen,
+    ProfileScreen,
+} from '../screens';
 
 export default BottomNavigation = ({route}) => {
     const BottomTab = createBottomTabNavigator();
     const { selectedIndex } = route.params;
     const screens = [ 
-        "ListScreen",
-        "PurchaseItemsScreen",
-        "PartnersScreen",
-        "ContactScreen"
+        "HomeScreen",
+        "PostScreen",
+        "ProfileScreen",
     ];
+
+    const pathToAsset = "../../assets/";
     
     const getTabBarVisibility = (route) => {
         // if(route.state === undefined) return true;
@@ -45,8 +45,8 @@ export default BottomNavigation = ({route}) => {
             }}
         >
             <BottomTab.Screen
-                name="ListScreen"
-                component={ListScreen}
+                name="HomeScreen"
+                component={HomeScreen}
                 options={({ route }) => ({
                     tabBarVisible: getTabBarVisibility(route),
                     tabBarLabel: () => {
@@ -81,8 +81,8 @@ export default BottomNavigation = ({route}) => {
                 })}
             />
             <BottomTab.Screen
-                name="PurchaseItemsScreen"
-                component={PurchaseItemsScreen}
+                name="PostScreen"
+                component={PostScreen}
                 options={({route}) => ({
                     tabBarVisible: getTabBarVisibility(route),
                     tabBarLabel: () => {
@@ -117,8 +117,8 @@ export default BottomNavigation = ({route}) => {
                 })}
             />
             <BottomTab.Screen
-                name="PartnersScreen"
-                component={PartnersScreen}
+                name="ProfileScreen"
+                component={ProfileScreen}
                 options={({route}) => ({
                     tabBarVisible: getTabBarVisibility(route),
                     tabBarLabel: () => {
@@ -147,42 +147,6 @@ export default BottomNavigation = ({route}) => {
                                 />
                                 </View>
                                 <Text style={styles.main_navigation_text}>Partners</Text>
-                            </View>
-                        );
-                    },
-                })}
-            />
-            <BottomTab.Screen
-                name="ContactScreen"
-                component={ContactScreen}
-                options={({route}) => ({
-                    tabBarVisible: getTabBarVisibility(route),
-                    tabBarLabel: () => {
-                        return;
-                    },
-                    tabBarIcon: ({ focused }) => {
-                    if (focused)
-                        return (
-                            <View style={styles.main_navigation}>
-                                <View style={styles.main_navigation_image_active}>
-                                <Image
-                                    source={require(`${pathToAsset}icons/about.png`)}
-                                    style={{height: 25, width: 25}}
-                                />
-                                </View>
-                                <Text style={styles.main_navigation_text}>About Us</Text>
-                            </View>
-                        );
-                    else
-                        return (
-                            <View style={styles.main_navigation}>
-                                <View style={styles.main_navigation_image}>
-                                <Image
-                                    source={require(`${pathToAsset}icons/about.png`)}
-                                    style={{height: 25, width: 25}}
-                                />
-                                </View>
-                                <Text style={styles.main_navigation_text}>About Us</Text>
                             </View>
                         );
                     },

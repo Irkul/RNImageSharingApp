@@ -7,48 +7,41 @@
  */
 
 import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+// import {setCustomText, setCustomTextInput} from 'react-native-global-props';
+import FlashMessage from 'react-native-flash-message';
+import firebase from '@react-native-firebase/app';
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+import {Provider} from './src/context';
+import RootNavigator from './src/navigator';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-
-    </SafeAreaView>
-  );
+const firebaseConfig = {
+  apiKey: "AIzaSyBAN7r96LKdUnUwB0865ryAle6D70daNgo",
+  authDomain: "reactnative-artem.firebaseapp.com",
+  projectId: "reactnative-artem",
+  storageBucket: "reactnative-artem.appspot.com",
+  messagingSenderId: "520994987462",
+  appId: "1:520994987462:web:77784c6bef74df94b026c7",
+  databaseURL: "https://reactnative-artem.firebaseio.com",
 };
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+if (firebase.apps.length === 0) {
+  firebase.initializeApp(firebaseConfig);
+  // ... offline mode
+  // firestore().settings({
+  //   persistence: true,
+  //   cacheSizeBytes: firestore.CACHE_SIZE_UNLIMITED
+  // });
+}
+
+const App = ()  => {
+  return (
+    <React.Fragment>
+      <Provider>
+         <RootNavigator/>
+         <FlashMessage/>
+      </Provider>
+    </React.Fragment>
+  ); 
+};
 
 export default App;

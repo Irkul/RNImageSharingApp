@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import BottomNavigation from './bottomNavigations';
+import BottomNavigation from './bottomNavigation';
 import {
     SplashScreen,
     LoginScreen,
     RegisterScreen,
-    MainScreen,
-   
-} from 'src/screens';
+} from '../screens';
 
 export default StackScreen = () => {
     const Stack = createStackNavigator();
@@ -15,21 +13,22 @@ export default StackScreen = () => {
     const [firstScreen, setFirstScreen] = useState("");
     // const { getUserToken } = useContext(AuthContext);
     // const { getUser } = useContext(UserContext);
-    useEffect( ()=> {
-        getUserToken().then((res)=>{
-            if (res) {
-                setFirstScreen("MainScreen");
-                getUser(res);
-            } else {
-                setFirstScreen("LoginScreen");
-            }
-        });
-    }, [])
+    // useEffect( ()=> {
+    //     getUserToken().then((res)=>{
+    //         if (res) {
+    //             setFirstScreen("BottomScreen");
+    //             getUser(res);
+    //         } else {
+    //             setFirstScreen("LoginScreen");
+    //         }
+    //     });
+    // }, [])
 
     return (
         <Stack.Navigator
             screenOptions={{headerShown: false}}
-            initialRouteName= {firstScreen}
+            // initialRouteName= {firstScreen}
+            initialRouteName= {"LoginScreen"}
         >
             <Stack.Screen
                 name="SplashScreen"
@@ -46,10 +45,6 @@ export default StackScreen = () => {
             <Stack.Screen
                 name="BottomScreen"
                 component={BottomNavigation}
-            />
-            <Stack.Screen
-                name="MainScreen"
-                component={MainScreen}
             />
         </Stack.Navigator>
     );
