@@ -12,52 +12,59 @@ const AuthContext = createContext();
 const AuthContextProvider = props => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const getCurrentUser = () => {
-    return auth().currentUser;
+
+  const getCurrentUser = async () => {
+    const user = await auth().currentUser;
+    return user;
   }
 
   const createUser = async (user) => {
+    const {name, email, password} = user;
+    setIsLoading(true);
     try {
-      await auth().createUserWithEmailAndPassword(user.email, user.password);
+      await auth().createUserWithEmailAndPassword(email, password);
 
-      const uid = Firebase.getCurrentUser().uid;
+      const user = await getCurrentUser();
+      const uid = user.uid;
 
-      let profilePhotoUrl = 'default';
+      // let profilePhotoUrl = 'default';
 
-      await db.collection('users').doc(uid).set({
-        username: user.username,
-        email: user.email,
-        profilePhotoUrl,
+      await db.collection('Users').doc(uid).set({
+        email: email,
+        name: name
+        // profilePhotoUrl,
       });
 
-      if (user.profilePhoto) {
-        profilePhotoUrl = await Firebase.uploadProfilePhoto(user.profilePhoto);
+      // if (user.profilePhoto) {
+      //   profilePhotoUrl = await uploadProfilePhoto(user.profilePhoto);
+      // }
+      setIsLoading(false);
+
+      // delete user.password;
+
+      return {
+        ...user,
+        uid,
       }
-
-      delete user.password;
-
-      return {...user, profilePhotoUrl, uid};
+      // return {...user, profilePhotoUrl, uid};
     } catch (error) {
+      setIsLoading(false);
       console.log('Error @createUser: ', error.message);
+      return {"error": error.message}
     }
   }
 
   const uploadProfilePhoto = async (uri) => {
-    const uid = Firebase.getCurrentUser().uid;
-
+    const user = await getCurrentUser()
+    const uid = user.uid;
     try {
-      const photo = await Firebase.getBlob(uri);
-
+      const photo = await getBlob(uri);
       const imageRef = storage().ref('profilePhotos').child(uid);
-
-      await imageRef.put(photo);
-
+      const awaitRes = await imageRef.put(photo);
       const url = await imageRef.getDownloadURL();
-
-      await db.collection('users').doc(uid).update({
+      const awaitResp = await db.collection('Users').doc(uid).update({
         profilePhotoUrl: url,
       });
-
       return url;
     } catch (error) {
       console.log('Error @uploadProfilePhoto: ', error);
@@ -65,27 +72,63 @@ const AuthContextProvider = props => {
   }
 
   const uploadPost = async (post) => {
-    const uid = Firebase.getCurrentUser().uid;
+    const user = await getCurrentUser();
+    const uid = user.uid;
 
     const date = moment(Date()).format('MMMM Do YYYY, h:mm:ss a');
     console.log('date: ', date);
 
     try {
-      const photo = await Firebase.getBlob(post.photo);
+      const photo = await getBlob(post.photo);
 
-      const imageRef = storage().ref(`posts/${uid}`).child(`${date}.jpeg`);
+      const imageRef = storage().ref(`Posts/${uid}`).child(`${date}.jpeg`);
 
       await imageRef.put(photo);
 
       const url = await imageRef.getDownloadURL();
 
-      await db.collection('users').doc(uid).collection('posts').doc(date).set({
+      await db.collection('Users').doc(uid).collection('Posts').doc(date).set({
         text: post.text,
         photoUrl: url,
       });
     } catch (error) {
       console.log('Error @uploadPost: ', error);
     }
+  }
+
+  const uploadImage = async (uri) => {
+    const user = await getCurrentUser()
+    const uid = user.uid;
+    setIsLoading(true);
+
+    try {
+      const imageRef = storage().ref('Post').child(uid);
+      const awaitRes = await imageRef.putFile(uri);
+      const url = await imageRef.getDownloadURL();
+      setIsLoading(false);
+      return url;
+    } catch (error) {
+      console.log('Error @UploadImage: ', error);
+      setIsLoading(false);
+      return {"error": error.message}
+    }
+    /**
+      const [transferred, setTransferred] = useState(0);
+      const task = storage()
+        .ref(filename)
+        .putFile(uploadUri);
+      // set progress state
+      task.on('state_changed', snapshot => {
+        setTransferred(
+          Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+        );
+      });
+      try {
+        await task;
+      } catch (e) {
+        console.error(e);
+      }
+    */
   }
 
   const getBlob = async (uri) => {
@@ -109,7 +152,7 @@ const AuthContextProvider = props => {
   const getUserInfo = async (uid) => {
     try {
       let user = await db
-        .collection('users')
+        .collection('Users')
         .doc(uid)
         .get()
         .then((documentSnapshot) => {
@@ -142,7 +185,13 @@ const AuthContextProvider = props => {
   }
 
   const signIn = async (email, password) => {
-    return auth().signInWithEmailAndPassword(email, password);
+    try {
+      const res = await auth().signInWithEmailAndPassword(email, password);
+      return res;
+    } catch (error) {
+      return {"error": error.message};
+    }
+
   }
 
   
@@ -151,6 +200,7 @@ const AuthContextProvider = props => {
     createUser,
     uploadProfilePhoto,
     uploadPost,
+    uploadImage,
     getBlob,
     getUserInfo,
     signIn,

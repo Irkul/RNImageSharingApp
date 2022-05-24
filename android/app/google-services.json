@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "520994987462",
+    "project_id": "reactnative-artem",
+    "storage_bucket": "reactnative-artem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:520994987462:android:fc42c2992184e59ab026c7",
+        "android_client_info": {
+          "package_name": "com.artem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "520994987462-e4te9hkbhgo53b8nm4rvt55oc7e2t731.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUwK9_3rBjUdhRoWci5SKfVGh0SwUeJJ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "520994987462-e4te9hkbhgo53b8nm4rvt55oc7e2t731.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "520994987462-dnft0oegvlkeorgh1242v7ni7347v208.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.artem"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

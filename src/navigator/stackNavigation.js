@@ -15,7 +15,7 @@ export default StackScreen = () => {
     // useEffect( ()=> {
     //     getUserToken().then((res)=>{
     //         if (res) {
-    //             setFirstScreen("BottomScreen");
+    //             setFirstScreen("BottomNavigation");
     //             getUser(res);
     //         } else {
     //             setFirstScreen("LoginScreen");
@@ -38,7 +38,7 @@ export default StackScreen = () => {
                 component={RegisterScreen}
             />
             <Stack.Screen
-                name="BottomScreen"
+                name="BottomNavigation"
                 component={BottomNavigation}
             />
         </Stack.Navigator>

@@ -65,8 +65,6 @@ export const PostScreen = ({navigation}) => {
     };
 
     const launchGalleryAction = async () => {
-      setShowModal(false);
-
       const response = await launchImageLibrary(options);
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -82,7 +80,6 @@ export const PostScreen = ({navigation}) => {
     };
 
     const launchCameraAcion = async () => {
-      setShowModal(false);
       // You can also use as a promise without 'callback':
       const result = await launchCamera(options);
       console.log("####", result);
@@ -116,7 +113,6 @@ export const PostScreen = ({navigation}) => {
     };
 
     return (
-      <>
         <BlankScreenTemplate>
           <Text type={TextType.HEADER_4} style={styles.subTitle}>Please post the photo and choose type</Text>
           <View style={styles.textInputContainer}>
@@ -175,23 +171,15 @@ export const PostScreen = ({navigation}) => {
             title={"Upload Photo"}
             containerStyle={styles.button}
           />
+          {showModal&&<Modal>
+            <View style={styles.modal}>
+              <Text type={TextType.BODY_3}>Modal</Text>
+              <Button 
+                onPress={launchCameraAcion}
+              />
+            </View>  
+          </Modal>}
         </BlankScreenTemplate>
-        {showModal&&<Modal style={styles.modal}>
-          <Text type={TextType.BODY_3}>Choose the Photo Source</Text>
-          <Button
-            title={"Take a photo from Camera"}
-            onPress={launchCameraAcion}
-            containerStyle={styles.button}
-            type={ButtonType.WHITE}
-          />
-          <Button
-            title={"Select a photo from Gallery"}
-            onPress={launchGalleryAction}
-            containerStyle={styles.button}
-            type={ButtonType.WHITE}
-          />
-        </Modal>}
-      </>
     );
 }
 
@@ -230,6 +218,11 @@ const styles  = StyleSheet.create({
       borderRadius: 0,
       marginTop: unitH * 80,
     },
+    imageContainer: {
+      marginTop: 30,
+      marginBottom: 50,
+      alignItems: 'center'
+    },
     progressBarContainer: {
       marginTop: 20
     },
@@ -238,19 +231,18 @@ const styles  = StyleSheet.create({
       height: 300
     },
     imageContainer: {
-      alignSelf: 'center',
-      width: unitH * 500,
-      height: unitH * 500,
-      marginTop: unitH * 50,
-      borderWidth: 1,
-      borderRadius: 5,
-      borderColor: PrimaryColors.Gray,
+        alignSelf: 'center',
+        width: unitH * 500,
+        height: unitH * 500,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: PrimaryColors.Gray,
     },
     modal: {
-      marginTop: unitH * 300,
+      position: 'absolute',
       justifyContent: 'center',
+      alignSelf: 'center',
       width: unitW * 300,
-      height: unitH * 400,
-      backgroundColor: 'blue'
+      height: unitH * 400
     },
 });

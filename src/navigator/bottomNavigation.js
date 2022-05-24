@@ -7,6 +7,7 @@ import {
     PostScreen,
     ProfileScreen,
 } from '../screens';
+import { PrimaryColors } from "../theme/colors";
 
 export default BottomNavigation = ({route}) => {
     const BottomTab = createBottomTabNavigator();
@@ -32,7 +33,7 @@ export default BottomNavigation = ({route}) => {
     
         // return false;
         const routeName = getFocusedRouteNameFromRoute(route);
-        const hideOnScreens = ['EditProfile'];
+        const hideOnScreens = ["EditProfile"];
         if (hideOnScreens.indexOf(routeName) > -1) return false;
         return true;
     };
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     bar_wrapper:{
         position:'absolute',
         overflow: 'hidden',
-        height: 100,
+        height: 120,
         borderColor: 'transparent',
         backgroundColor: 'white',
     },
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
         height: 40,
         alignItems: 'center',
         borderRadius: 50,
-        backgroundColor: '#8b8f8c',
+        backgroundColor: PrimaryColors.Gray,
         justifyContent: "center",
         marginBottom: 5,
     },
@@ -192,8 +193,7 @@ const styles = StyleSheet.create({
         height: 40,
         alignItems: 'center',
         borderRadius: 50,
-        // backgroundColor: '#6949FD',
-        backgroundColor: '#5be49b',
+        backgroundColor: PrimaryColors.Red,
         justifyContent: "center",
         marginBottom: 5,
     },

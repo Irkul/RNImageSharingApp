@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>520994987462-dnft0oegvlkeorgh1242v7ni7347v208.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.520994987462-dnft0oegvlkeorgh1242v7ni7347v208</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCKW9xYJYK_HlJbL5y2hfhoZSSD-FI2B4A</string>
+	<key>GCM_SENDER_ID</key>
+	<string>520994987462</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.artem</string>
+	<key>PROJECT_ID</key>
+	<string>reactnative-artem</string>
+	<key>STORAGE_BUCKET</key>
+	<string>reactnative-artem.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:520994987462:ios:d6b7fbb0d8e8931eb026c7</string>
+</dict>
+</plist>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {StyleSheet, ScrollView, StatusBar, View} from 'react-native';
+import {ImageBackground, StyleSheet, ScrollView, StatusBar, View} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
@@ -9,7 +9,7 @@ import { PrimaryColors } from '../../theme/colors';
 
 const statusBarHeight = getStatusBarHeight();
 
-const BlankScreenTemplate = (props) => {
+const LoginScreenTemplate = (props) => {
 
     const { isLoading } = useContext(AuthContext);
     const {children, contentStyle} = props;
@@ -20,6 +20,8 @@ const BlankScreenTemplate = (props) => {
         setLoading(isLoading);
     }, [isLoading]);
 
+    const loginImage = require('images/');
+
     return(
         <View style={styles.page_wrapper}>
             <Spinner
@@ -29,9 +31,11 @@ const BlankScreenTemplate = (props) => {
             />
             {!loading&&<>
                 <StatusBar translucent backgroundColor="transparent" barStyle="dark-content"/>
-                <ScrollView style={{...styles.container, ...contentStyle}}>
-                    {children}
-                </ScrollView>
+                <ImageBackground style={styles.backgroundViewContainer} source={loginImage} resizeMode='cover'>
+                    <ScrollView style={{...styles.container, ...contentStyle}}>
+                        {children}
+                    </ScrollView>
+                </ImageBackground>
             </>}
         </View>
     )
@@ -47,6 +51,9 @@ const styles = StyleSheet.create({
     container:{
         flex:1
     },
+    backgroundViewContainer: {
+
+    },
 });
 
-export default BlankScreenTemplate;
+export default LoginScreenTemplate;
