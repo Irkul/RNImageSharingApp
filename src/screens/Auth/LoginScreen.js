@@ -49,7 +49,6 @@ export const LoginScreen = ({navigation}) => {
                         style={styles.textInput}
                         onChangeText={str => setEmail(str)}
                         value={email}
-                        placeholder={"demo@gmail.com"}
                     />
                     <TextInput
                         containerStyle={styles.textInputContainer}
@@ -61,13 +60,11 @@ export const LoginScreen = ({navigation}) => {
                         isPassword={true}
                     />
                     <Button
-                        type={ButtonType.WHITE}
                         title={"Login"}
                         onPress={loginPressed}
                         containerStyle={styles.button}
                     />
                     <Button
-                        type={ButtonType.WHITE}
                         title={"Create Account"}
                         onPress={createAccountPressed}
                         containerStyle={styles.RegisterButton}

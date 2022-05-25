@@ -78,66 +78,6 @@ const AuthContextProvider = props => {
     }
   }
 
-  const uploadPost = async (post) => {
-    const user = await getCurrentUser();
-    const uid = user.uid;
-
-    const date = moment(Date()).format('MMMM Do YYYY, h:mm:ss a');
-    console.log('date: ', date);
-
-    try {
-      const photo = await getBlob(post.photo);
-
-      const imageRef = storage().ref(`Posts/${uid}`).child(`${date}.jpeg`);
-
-      await imageRef.put(photo);
-
-      const url = await imageRef.getDownloadURL();
-
-      await db.collection('Users').doc(uid).collection('Posts').doc(date).set({
-        text: post.text,
-        photoUrl: url,
-      });
-    } catch (error) {
-      console.log('Error @uploadPost: ', error);
-    }
-  }
-
-  const uploadImage = async (uri) => {
-    const user = await getCurrentUser()
-    const uid = user.uid;
-    setIsLoading(true);
-
-    try {
-      const imageRef = storage().ref('Post').child(uid);
-      const awaitRes = await imageRef.putFile(uri);
-      const url = await imageRef.getDownloadURL();
-      setIsLoading(false);
-      return url;
-    } catch (error) {
-      console.log('Error @UploadImage: ', error);
-      setIsLoading(false);
-      return {"error": error.message}
-    }
-    /**
-      const [transferred, setTransferred] = useState(0);
-      const task = storage()
-        .ref(filename)
-        .putFile(uploadUri);
-      // set progress state
-      task.on('state_changed', snapshot => {
-        setTransferred(
-          Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
-        );
-      });
-      try {
-        await task;
-      } catch (e) {
-        console.error(e);
-      }
-    */
-  }
-
   const getBlob = async (uri) => {
     return await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -206,8 +146,6 @@ const AuthContextProvider = props => {
     getCurrentUser,
     createUser,
     uploadProfilePhoto,
-    uploadPost,
-    uploadImage,
     getBlob,
     getUserInfo,
     signIn,

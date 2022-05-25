@@ -140,7 +140,6 @@ export const RegisterScreen = ({navigation}) => {
                     />
 
                     <Button
-                        type={ButtonType.WHITE}
                         title={"Register"}
                         onPress={registerPressed}
                         containerStyle={styles.button}
