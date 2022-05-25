@@ -42,12 +42,10 @@ const uploadPost = async (post) => {
     const uid = user.uid;
 
     const date = moment(Date()).format('MMMM Do YYYY, h:mm:ss a');
-    console.log('date: ', date);
 
     try {
       const photo = await authContext.getBlob(post.photo);
 
-      console.log("#### app context", photo);
       const imageRef = storage().ref(`Posts/${uid}`).child(`${date}.jpeg`);
 
       await imageRef.put(photo);
