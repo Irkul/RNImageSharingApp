@@ -1,12 +1,18 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {Alert, Pressable, StyleSheet, TextInput, View} from 'react-native';
+import {Alert, ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {PERMISSIONS, check, request, RESULTS} from 'react-native-permissions';
+import ImagePicker from 'react-native-image-crop-picker';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import BlankScreenTemplate from '../../components/ScreenTemplate/BlankScreenTemplate';
+import BlurView from '../../components/BlurView';
 import Text from '../../components/Text';
+import { TextInput } from '../../components/TextInput';
 import Button, {ButtonType} from '../../components/Button';
 import { AuthContext } from '../../context';
 import {TextType} from '../../theme/typography';
 import {unitH, unitW} from '../../theme/constant';
-import {PrimaryColors} from '../../theme/colors';
+import {PrimaryColors, Transparents} from '../../theme/colors';
+import LoginScreenTemplate from '../../components/ScreenTemplate/LoginScreenTemplate';
 
 export const RegisterScreen = ({navigation}) => {
     const authContext = useContext(AuthContext);
@@ -14,6 +20,7 @@ export const RegisterScreen = ({navigation}) => {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [confirmpassword, setConfirmPassword] = useState("");
+    const [profilePhoto, setProfilePhoto] = useState();
 
     const registerPressed = async () => {
         const passValidate = validatepassword(password, confirmpassword);
@@ -32,7 +39,8 @@ export const RegisterScreen = ({navigation}) => {
         const res = await authContext.createUser({
             name: name,
             email: email,
-            password: password
+            password: password,
+            profilePhoto: profilePhoto,
         });
 
         if (res.error) {
@@ -43,74 +51,111 @@ export const RegisterScreen = ({navigation}) => {
         }
     }
 
+    const pickImage = () => {
+        ImagePicker.openPicker({
+          width: 300,
+          height: 300,
+          cropping: true,
+        }).then((image) => {
+          console.log(image);
+    
+          setProfilePhoto(image.path);
+          console.log(profilePhoto);
+        });
+    };
+
+    const addProfilePic = async () => {
+        const status = await request(PERMISSIONS.ANDROID.CAMERA);
+        console.log(status);
+
+        if (status !== RESULTS.GRANTED) {
+            Alert.alert(
+                'Camera Permission Denied',
+                'Artem needs permission to access your Camera. 👨🏼‍🦳',
+                [
+                    {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                    },
+                    {text: 'OK', onPress: () => console.log('OK Pressed')},
+                ],
+                {cancelable: false},
+            );
+        }
+
+        pickImage();
+    };
+
     const validatepassword = (password, confirmpassword) => {
         // ... compare 
         return (password!="") && (confirmpassword!="") && (password === confirmpassword);
     }
     
     return (
-        <BlankScreenTemplate contentStyle={styles.content}>
-            <View style={styles.textInputContainer}>
-                <Text type={TextType.BODY_1} style={styles.textInputLabel}>
-                    Email *
-                </Text>
-                <TextInput
-                    keyboardType='email-address'
-                    style={styles.textInput}
-                    onChangeText={str => setEmail(str)}
-                    value={email}
-                />
-            </View>
-            <View style={styles.textInputContainer}>
-                <Text type={TextType.BODY_1} style={styles.textInputLabel}>
-                    Name *
-                </Text>
-                <TextInput
-                    keyboardType='default'
-                    style={styles.textInput}
-                    onChangeText={str => setName(str)}
-                    value={name}
-                />
-            </View>
-            <View style={styles.textInputContainer}>
-                <Text type={TextType.BODY_1} style={styles.textInputLabel}>
-                    Password *
-                </Text>
-                <TextInput
-                    keyboardType='default'
-                    style={styles.textInput}
-                    onChangeText={str => setPassword(str)}
-                    value={password}
-                    secureTextEntry={true}
-                />
-            </View>
-            <View style={styles.textInputContainer}>
-                <Text type={TextType.BODY_1} style={styles.textInputLabel}>
-                    Confirm Password *
-                </Text>
-                <TextInput
-                    keyboardType='default'
-                    style={styles.textInput}
-                    onChangeText={str => setConfirmPassword(str)}
-                    value={confirmpassword}
-                    secureTextEntry={true}
-                />
-            </View>
-            <Button
-                type={ButtonType.WHITE}
-                title={"Register"}
-                onPress={registerPressed}
-                containerStyle={styles.button}
-            />
-            <View style={styles.textInputContainer}>
-                <Pressable
-                    style={styles.backToLogin}
-                    onPress={() => navigation.goBack()}
-                >
-                    <Text type={TextType.BODY_1}>I have an account</Text>
-                </Pressable>
-            </View>
-        </BlankScreenTemplate>
+        <LoginScreenTemplate contentStyle={styles.content}>
+            <BlurView style={styles.blurView}>
+                <View style={styles.form}>
+                    <Pressable style={styles.avatarContainer} onPress={addProfilePic}>
+                        {profilePhoto ? <Image
+                            resizeMode='contain'
+                            source={{ uri: profilePhoto}}
+                            style={styles.avatar}
+                        /> : <MaterialCommunityIcons name={'plus'} color={PrimaryColors.Black} size={unitH * 200} />}
+                    </Pressable>
+                    <TextInput
+                        containerStyle={styles.textInputContainer}
+                        title="E-mail *"
+                        keyboardType='email-address'
+                        style={styles.textInput}
+                        onChangeText={str => setEmail(str)}
+                        value={email}
+                        // placeholder={"demo@gmail.com"}
+                    />
+                    <TextInput
+                        containerStyle={styles.textInputContainer}
+                        title="Name *"
+                        keyboardType='default'
+                        style={styles.textInput}
+                        onChangeText={str => setName(str)}
+                        value={name}
+                    />
+                    <TextInput
+                        containerStyle={styles.textInputContainer}
+                        title="Password *"
+                        keyboardType="default"
+                        style={styles.textInput}
+                        onChangeText={str => setPassword(str)}
+                        value={password}
+                        isPassword={true}
+                    />
+                    <TextInput
+                        containerStyle={styles.textInputContainer}
+                        title="Confirm Password *"
+                        keyboardType="default"
+                        style={styles.textInput}
+                        onChangeText={str => setConfirmPassword(str)}
+                        value={confirmpassword}
+                        isPassword={true}
+                    />
+
+                    <Button
+                        type={ButtonType.WHITE}
+                        title={"Register"}
+                        onPress={registerPressed}
+                        containerStyle={styles.button}
+                    />
+                    <View style={styles.textInputContainer}>
+                        <Pressable
+                            style={styles.backToLogin}
+                            onPress={() => navigation.goBack()}
+                        >
+                            <Text type={TextType.BODY_1}>I have an account</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </BlurView>
+        </LoginScreenTemplate>
     );
 }
 
@@ -120,6 +165,18 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         justifyContent: 'center',
+    },
+    blurView: {
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      alignSelf: 'center',
+      borderWidth: 0
+    },
+    form: {
+      flex: 1,
+      justifyContent: 'center',
+      alignContent: 'center'  
     },
     textInputContainer: {
         alignItems: 'flex-start',
@@ -137,14 +194,11 @@ const styles = StyleSheet.create({
     textInput: {
         fontSize: 20,
         width: '100%',
-        borderWidth: 0.7,
         marginBottom: unitH * 60,
     },
     button: {
         alignSelf: 'center',
         width: '66%',
-        borderWidth: 0.7,
-        borderRadius: 0,
         marginTop: unitH * 80,
     },
     backToLogin: {
@@ -154,4 +208,20 @@ const styles = StyleSheet.create({
         height: unitH * 50,
     },
 
+    avatarContainer: {
+        width: unitH * 300,
+        height: unitH * 300,
+        borderRadius: unitH * 150,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        marginVertical: 20,
+        backgroundColor: Transparents.BlueColor,
+    },
+    avatar: {
+        flex: 1,
+        width: unitH * 300,
+        height: unitH * 300,
+        borderRadius: unitH * 150,
+    },
 });

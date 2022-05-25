@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Pressable,
   PressableProps,
@@ -20,27 +20,32 @@ export const ButtonType = {
 
 export default function Button({
   title,
-  type,
   disabled = false,
   containerStyle,
   onPress,
   onLayout,
 }) {
+  const [pressed, setPressed] = useState(false);
+
   return (
     <Pressable
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
       onLayout={onLayout}
       disabled={disabled}
-      style={[styles.pressableStyle, containerStyle]}
+      style={[
+        styles.pressableStyle, 
+        containerStyle,
+        pressed
+            ? styles.buttonPressed
+            : styles.buttonUnPressed,
+        ]}
       onPress={onPress}>
       <Text
         type={TextType.BUTTON_1}
-        style={{
-          ...styles.textStyle,
-          color:
-            type == ButtonType.WHITE
-              ? PrimaryColors.Black
-              : PrimaryColors.White,
-        }}>
+        style={[
+          styles.textStyle,
+        ]}>
         {title}
       </Text>
     </Pressable>
@@ -79,7 +84,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 158 * unitH,
-    borderRadius: (158 * unitH) / 2,
+    borderWidth: unitH * 10,
+    borderRadius: unitH * 40,
+    borderColor: PrimaryColors.White,
   },
   textStyle: {
     alignSelf: 'center',
@@ -101,6 +108,13 @@ const styles = StyleSheet.create({
     borderRadius: (unitH * 110) / 2,
     borderWidth: 1,
     borderColor: PrimaryColors.Sand,
+  },
+  buttonPressed: {
+    backgroundColor: SecondaryColors.LightBlue,
+    borderColor: PrimaryColors.White,
+  },
+  buttonUnPressed: {
+    
   },
 });
 

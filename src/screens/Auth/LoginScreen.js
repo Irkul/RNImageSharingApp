@@ -1,7 +1,8 @@
 import React, {useEffect, useContext, useState} from 'react';
-import {Alert, Pressable, StyleSheet, TextInput, View} from 'react-native';
-import BlankScreenTemplate from '../../components/ScreenTemplate/BlankScreenTemplate';
-import Text from '../../components/Text';
+import {Alert, Pressable, StyleSheet, View} from 'react-native';
+import LoginScreenTemplate from '../../components/ScreenTemplate/LoginScreenTemplate';
+import { TextInput } from '../../components/TextInput';
+import BlurView from '../../components/BlurView';
 import Button, {ButtonType} from '../../components/Button';
 import { AuthContext } from '../../context';
 import {TextType} from '../../theme/typography';
@@ -38,44 +39,42 @@ export const LoginScreen = ({navigation}) => {
     }
 
     return (
-        <BlankScreenTemplate contentStyle={styles.content}>
-            <View style={styles.textInputContainer}>
-                <Text type={TextType.BODY_1} style={styles.textInputLabel}>
-                    E-mail
-                </Text>
-                <TextInput
-                    keyboardType='email-address'
-                    style={styles.textInput}
-                    onChangeText={str => setEmail(str)}
-                    value={email}
-                />
-            </View>
-            <View style={styles.textInputContainer}>
-                <Text type={TextType.BODY_2} style={styles.textInputLabel}>
-                    Password 
-                </Text>
-                <TextInput
-                    keyboardType='default'
-                    style={styles.textInput}
-                    onChangeText={str => setPassword(str)}
-                    value={password}
-                    secureTextEntry={true}
-                />
-            </View>
-            <Button
-                type={ButtonType.WHITE}
-                title={"Login"}
-                onPress={loginPressed}
-                containerStyle={styles.button}
-            />
-            <Button
-                type={ButtonType.WHITE}
-                title={"Create Account"}
-                onPress={createAccountPressed}
-                containerStyle={styles.button}
-            />
-            
-        </BlankScreenTemplate>
+        <LoginScreenTemplate contentStyle={styles.content}>
+            <BlurView style={styles.blurView}>
+                <View style={styles.form}>
+                    <TextInput
+                        containerStyle={styles.textInputContainer}
+                        title="E-mail"
+                        keyboardType="email-address"
+                        style={styles.textInput}
+                        onChangeText={str => setEmail(str)}
+                        value={email}
+                        placeholder={"demo@gmail.com"}
+                    />
+                    <TextInput
+                        containerStyle={styles.textInputContainer}
+                        title="Password"
+                        keyboardType="default"
+                        style={styles.textInput}
+                        onChangeText={str => setPassword(str)}
+                        value={password}
+                        isPassword={true}
+                    />
+                    <Button
+                        type={ButtonType.WHITE}
+                        title={"Login"}
+                        onPress={loginPressed}
+                        containerStyle={styles.button}
+                    />
+                    <Button
+                        type={ButtonType.WHITE}
+                        title={"Create Account"}
+                        onPress={createAccountPressed}
+                        containerStyle={styles.RegisterButton}
+                    />
+                </View>
+            </BlurView>
+        </LoginScreenTemplate>
     );
 }
 
@@ -84,31 +83,39 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: '40%',
     },
+    blurView: {
+        position: 'absolute',
+        alignSelf: 'center',
+        width: '80%',
+        height: '60%',
+        top: '20%',
+    },
+    form: {
+      flex: 1,
+      justifyContent: 'center',
+      alignContent: 'center'  
+    },
     textInputContainer: {
         alignItems: 'flex-start',
         alignSelf: 'center',
         width: '66%',
     },
-    textInputLabel: {
-        marginBottom: unitH * 20,
-    },
-    textInputErrorLabel: {
-        marginTop: unitH * -60,
-        marginBottom: unitH * 20,
-        color: PrimaryColors.Red,
-    },
     textInput: {
         fontSize: 20,
         width: '100%',
-        borderWidth: 0.7,
         marginBottom: unitH * 60,
+        color: PrimaryColors.White,
     },
     button: {
         alignSelf: 'center',
         width: '66%',
-        borderWidth: 0.7,
-        borderRadius: 0,
         marginTop: unitH * 80,
+    },
+    RegisterButton: {
+        alignSelf: 'center',
+        width: '66%',
+        marginTop: unitH * 80,
+        backgroundColor: PrimaryColors.Blue
     },
     forgotPassword: {
         alignSelf: 'center',

@@ -24,20 +24,21 @@ export const TextType = {
 }
 
 const headerBase = {
-  color: PrimaryColors.Black,
+  color: PrimaryColors.White,
 //   fontFamily: '',
   fontWeight: '500',
   textAlign: 'center',
 };
 
 const bodyBase = {
+  color: PrimaryColors.White,
 //   fontFamily: '',
   fontWeight: '600',
   textAlign: 'center',
 };
 
 const buttonBase = {
-  color: PrimaryColors.Black,
+  color: PrimaryColors.White,
 //   fontFamily: '',
   fontWeight: '600',
   textAlign: 'center',

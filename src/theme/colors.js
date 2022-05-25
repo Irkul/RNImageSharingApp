@@ -1,4 +1,5 @@
 export const PrimaryColors = {
+    SkyBlue : '#9fe7ff',
     Black : '#626262',
     Blue : '#34657f',
     Gray : '#b6ada5', 
@@ -8,12 +9,14 @@ export const PrimaryColors = {
   }
   
 export const SecondaryColors = {
-    Blue : '#002231',
+    Blue : '#0000ff', //'#002231',
+    LightBlue : '#c7e9fe',
     Gray : '#d7d2cb',
     Red : '#b32a24', 
 }
 
 export const Transparents = {
+    SkyBlue : '#9fe7ff99',
     BlackColor : '#00000030',
     BlueColor : '#34657f49',
     Clear : '#00000000',

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         position: 'relative',
     },
     container:{
-        flex:1
+        // flex:1
     },
 });
 

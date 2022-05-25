@@ -11,7 +11,7 @@ const AuthContext = createContext();
 
 const AuthContextProvider = props => {
   const [isLoading, setIsLoading] = useState(false);
-
+  const [userData, setUserData] = useState();
 
   const getCurrentUser = async () => {
     const user = await auth().currentUser;
@@ -19,7 +19,7 @@ const AuthContextProvider = props => {
   }
 
   const createUser = async (user) => {
-    const {name, email, password} = user;
+    const {name, email, password, profilePhoto} = user;
     setIsLoading(true);
     try {
       await auth().createUserWithEmailAndPassword(email, password);
@@ -27,23 +27,30 @@ const AuthContextProvider = props => {
       const user = await getCurrentUser();
       const uid = user.uid;
 
-      // let profilePhotoUrl = 'default';
-
+      let profilePhotoUrl = 'default';
+      if (user.profilePhoto) {
+        profilePhotoUrl = await uploadProfilePhoto(profilePhoto);
+      }
       await db.collection('Users').doc(uid).set({
         email: email,
-        name: name
-        // profilePhotoUrl,
+        name: name,
+        profilePhotoUrl: profilePhotoUrl,
       });
 
-      // if (user.profilePhoto) {
-      //   profilePhotoUrl = await uploadProfilePhoto(user.profilePhoto);
-      // }
+      
       setIsLoading(false);
 
       // delete user.password;
 
+      setUserData({
+        ...user,
+        profilePhotoUrl,
+        uid,
+      });
+
       return {
         ...user,
+        profilePhotoUrl,
         uid,
       }
       // return {...user, profilePhotoUrl, uid};
@@ -62,9 +69,9 @@ const AuthContextProvider = props => {
       const imageRef = storage().ref('profilePhotos').child(uid);
       const awaitRes = await imageRef.put(photo);
       const url = await imageRef.getDownloadURL();
-      const awaitResp = await db.collection('Users').doc(uid).update({
-        profilePhotoUrl: url,
-      });
+      // const awaitResp = await db.collection('Users').doc(uid).update({
+      //   profilePhotoUrl: url,
+      // });
       return url;
     } catch (error) {
       console.log('Error @uploadProfilePhoto: ', error);

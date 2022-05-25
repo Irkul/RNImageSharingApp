@@ -7,7 +7,8 @@ import {
     PostScreen,
     ProfileScreen,
 } from '../screens';
-import { PrimaryColors } from "../theme/colors";
+import { PrimaryColors, Transparents } from "../theme/colors";
+import {unitH, unitW} from "../theme/constant";
 
 export default BottomNavigation = ({route}) => {
     const BottomTab = createBottomTabNavigator();
@@ -60,10 +61,10 @@ export default BottomNavigation = ({route}) => {
                                 <View style={styles.main_navigation_image_active}>
                                 <Image
                                     source={require(`${pathToAsset}icons/collapses.png`)}
-                                    style={{height: 25, width: 25}}
+                                    style={{height: 20, width: 20}}
                                 />
                                 </View>
-                                <Text style={styles.main_navigation_text}>Edit Previous</Text>
+                                <Text style={styles.main_navigation_text}>Home</Text>
                             </View>
                         );
                     else
@@ -72,10 +73,10 @@ export default BottomNavigation = ({route}) => {
                                 <View style={styles.main_navigation_image}>
                                 <Image
                                     source={require(`${pathToAsset}icons/collapses.png`)}
-                                    style={{height: 25, width: 25}}
+                                    style={{height: 20, width: 20}}
                                 />
                                 </View>
-                                <Text style={styles.main_navigation_text}>Edit Previous</Text>
+                                <Text style={styles.main_navigation_text}>Home</Text>
                             </View>
                         );
                     },
@@ -96,10 +97,10 @@ export default BottomNavigation = ({route}) => {
                                 <View style={styles.main_navigation_image_active}>
                                 <Image
                                     source={require(`${pathToAsset}icons/purchase.png`)}
-                                    style={{height: 25, width: 25}}
+                                    style={{height: 20, width: 20}}
                                 />
                                 </View>
-                                <Text style={styles.main_navigation_text}>Pre-purchased</Text>
+                                <Text style={styles.main_navigation_text}>Post</Text>
                             </View>
                         );
                     else
@@ -108,10 +109,10 @@ export default BottomNavigation = ({route}) => {
                                 <View style={styles.main_navigation_image}>
                                 <Image
                                     source={require(`${pathToAsset}icons/purchase.png`)}
-                                    style={{height: 25, width: 25}}
+                                    style={{height: 20, width: 20}}
                                 />
                                 </View>
-                                <Text style={styles.main_navigation_text}>Pre-purchased</Text>
+                                <Text style={styles.main_navigation_text}>Post</Text>
                             </View>
                         );
                     },
@@ -132,10 +133,10 @@ export default BottomNavigation = ({route}) => {
                                 <View style={styles.main_navigation_image_active}>
                                 <Image
                                     source={require(`${pathToAsset}icons/partners.png`)}
-                                    style={{height: 25, width: 25}}
+                                    style={{height: 20, width: 20}}
                                 />
                                 </View>
-                                <Text style={styles.main_navigation_text}>Partners</Text>
+                                <Text style={styles.main_navigation_text}>Profile</Text>
                             </View>
                         );
                     else
@@ -144,10 +145,10 @@ export default BottomNavigation = ({route}) => {
                                 <View style={styles.main_navigation_image}>
                                 <Image
                                     source={require(`${pathToAsset}icons/partners.png`)}
-                                    style={{height: 25, width: 25}}
+                                    style={{height: 20, width: 20}}
                                 />
                                 </View>
-                                <Text style={styles.main_navigation_text}>Partners</Text>
+                                <Text style={styles.main_navigation_text}>Profile</Text>
                             </View>
                         );
                     },
@@ -163,7 +164,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         height: 120,
         borderColor: 'transparent',
-        backgroundColor: 'white',
+        backgroundColor: Transparents.BlueColor,
     },
     tab_text:{
         marginBottom: 5,
@@ -180,25 +181,25 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     main_navigation_image: {
-        width: 40,
-        height: 40,
+        width: 30,
+        height: 30,
         alignItems: 'center',
-        borderRadius: 50,
-        backgroundColor: PrimaryColors.Gray,
+        borderRadius: 15,
+        backgroundColor: Transparents.SandColor,
         justifyContent: "center",
         marginBottom: 5,
     },
     main_navigation_image_active: {
-        width: 40,
-        height: 40,
+        width: 30,
+        height: 30,
         alignItems: 'center',
-        borderRadius: 50,
-        backgroundColor: PrimaryColors.Red,
+        borderRadius: 15,
+        backgroundColor: PrimaryColors.Blue,
         justifyContent: "center",
         marginBottom: 5,
     },
     main_navigation_text: {
-        fontSize: 12,
+        fontSize: 10,
         fontWeight: 'bold',
     },
 });

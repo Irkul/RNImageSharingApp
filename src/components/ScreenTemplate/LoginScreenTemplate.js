@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {ImageBackground, StyleSheet, ScrollView, StatusBar, View} from 'react-native';
+import {ImageBackground, StyleSheet, SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 import { AppContext } from '../../context/AppContext';
 import { AuthContext } from '../../context/AuthContext';
-import { PrimaryColors } from '../../theme/colors';
+import { PrimaryColors, SecondaryColors } from '../../theme/colors';
 import {unitH, unitW} from '../../theme/constant';
 
 const statusBarHeight = getStatusBarHeight();
@@ -22,65 +22,66 @@ const LoginScreenTemplate = (props) => {
     }, [isLoading]);
 
     const loginImage = require('../../../assets/loginImage.png');
+    // const loginImage = require('../../../assets/SkyBlueImage.png');
+
 
     return(
-        <View style={styles.page_wrapper}>
+        <SafeAreaView style={styles.container}>
             <Spinner
                 visible={loading}
                 size="large"
                 color={PrimaryColors.Blue}
             />
             {!loading&&<>
-                <StatusBar translucent backgroundColor="transparent" barStyle="dark-content"/>
-                <ImageBackground style={styles.backgroundViewContainer} source={loginImage} resizeMode='cover'>
+                <ImageBackground
+                    style={styles.backgroundViewContainer}
+                    source={loginImage}
+                    resizeMode='cover'
+                    blurRadius={50}
+                >
                     <View style={styles.blueRectangle} /> 
-
+                    <View style={styles.pinkCircle} />
+                    <View style={styles.redCircle} />
                     {children}
                 </ImageBackground>
             </>}
-        </View>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
-    page_wrapper:{
-        backgroundColor: '#ffffff',
-        flex: 1,
-        paddingTop: statusBarHeight,
-        position: 'relative',
-    },
     container:{
-        flex:1
+        flex: 1,
     },
     backgroundViewContainer: {
         flex: 1,
-        justifyContent: 'center',
         width: '100%',
         height: '100%',
     },
     blueRectangle: {
-        position: 'absolute',
+        alignSelf: 'center',
         marginTop: unitH * 350,
         width: unitH * 350,
         height: unitH * 350,
-        backgroundColor: 'blue',
+        backgroundColor: SecondaryColors.Blue,
+        opacity: 0.3,
         transform: [{rotate: '154deg'}]
     },
     pinkCircle: {
-        position: 'absolute',
-        marginTop: unitH * 1050,
+        alignSelf: 'center',
+        marginTop: unitH * 350,
         width: unitH * 350,
         height: unitH * 350,
         borderRadius: unitH * 175,
-        backgroundColor: 'pink',
+        backgroundColor: PrimaryColors.Red,
     },
     redCircle: {
-        position: 'absolute',
-        marginTop: unitH * 1750,
+        alignSelf: 'center',
+        marginTop: unitH * 350,
         width: unitH * 350,
         height: unitH * 350,
         borderRadius: unitH * 175,
-        backgroundColor: 'Red',
+        backgroundColor: SecondaryColors.Red,
     },
 });
 
