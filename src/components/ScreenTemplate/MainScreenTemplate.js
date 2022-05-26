@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {ImageBackground, StyleSheet, SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
+import {ImageBackground, KeyboardAvoidingView, StyleSheet, SafeAreaView, ScrollView, StatusBar, View} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 
@@ -24,25 +24,27 @@ const LoginScreenTemplate = (props) => {
 
 
     return(
-        <SafeAreaView style={styles.container}>
-            <Spinner
-                visible={loading}
-                size="large"
-                color={PrimaryColors.Blue}
-            />
-            {!loading&&<>
-                <ImageBackground
-                    style={styles.backgroundViewContainer}
-                    source={loginImage}
-                    resizeMode='cover'
-                    blurRadius={50}
-                >
-                    <ScrollView style={styles.container}>
-                        {children}
-                    </ScrollView>
-                </ImageBackground>
-            </>}
-        </SafeAreaView>
+        <KeyboardAvoidingView style={{ flex:1 }} behavior={ Platform.OS === 'ios' ? "padding" : "height"}>
+            <SafeAreaView style={styles.container}>
+                <Spinner
+                    visible={loading}
+                    size="large"
+                    color={PrimaryColors.Blue}
+                />
+                {!loading&&<>
+                    <ImageBackground
+                        style={styles.backgroundViewContainer}
+                        source={loginImage}
+                        resizeMode='cover'
+                        blurRadius={50}
+                    >
+                        <ScrollView style={styles.container}>
+                            {children}
+                        </ScrollView>
+                    </ImageBackground>
+                </>}
+            </SafeAreaView>
+        </KeyboardAvoidingView>
     )
 }
 

@@ -86,14 +86,14 @@ export const PostScreen = ({navigation}) => {
     } 
 
     const uploadImage = async () => {
-      // if (image == undefined) {return}
-      console.log("############### image", selectedType);
-
+      if (image == undefined) {return}
+      if (selectedType == undefined) {
+        Alert.alert("Artem 👨🏼‍🦳", "Please choose the post type");
+        return;
+      }
       const { uri } = image;
-      const filename = uri.substring(uri.lastIndexOf('/') + 1);
       const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
       const res = await appContext.uploadPost({photo: uploadUri, type: selectedType, number: number.toString()});
-      console.log("###############", res);
       Alert.alert(
         'Photo uploaded!',
         'Your photo has been uploaded to Firebase Cloud Storage!'

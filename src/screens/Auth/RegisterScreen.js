@@ -36,11 +36,14 @@ export const RegisterScreen = ({navigation}) => {
             Alert.alert("Artem 👨🏼‍🦳", "Please input your password correctly");
             return
         }
+
+        const uploadUri = Platform.OS === 'ios' ? profilePhoto.replace('file://', '') : profilePhoto;
+
         const res = await authContext.createUser({
             name: name,
             email: email,
             password: password,
-            profilePhoto: profilePhoto,
+            profilePhoto: uploadUri,
         });
 
         if (res.error) {
@@ -58,9 +61,7 @@ export const RegisterScreen = ({navigation}) => {
           cropping: true,
         }).then((image) => {
           console.log(image);
-    
           setProfilePhoto(image.path);
-          console.log(profilePhoto);
         });
     };
 

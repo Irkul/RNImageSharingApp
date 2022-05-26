@@ -30,8 +30,6 @@ export const LoginScreen = ({navigation}) => {
         }else{
             navigation.navigate("BottomNavigation", { selectedIndex: 0 });
         }
-        console.log("Login button Psdsdsressed", res);
-
     }
 
     const createAccountPressed = () => {

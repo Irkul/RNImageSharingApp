@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import moment from 'moment';
+import uuid from 'react-native-uuid';
 
 const db = firestore();
 
@@ -12,6 +13,7 @@ const AuthContext = createContext();
 const AuthContextProvider = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [userData, setUserData] = useState();
+  const myUUID = uuid.v1();
 
   const getCurrentUser = async () => {
     const user = await auth().currentUser;
@@ -23,20 +25,21 @@ const AuthContextProvider = props => {
     setIsLoading(true);
     try {
       await auth().createUserWithEmailAndPassword(email, password);
-
-      const user = await getCurrentUser();
-      const uid = user.uid;
+      const date = moment().format('yyyy-MM-DDThh:mm:ss');
+      const authUser = await getCurrentUser();
+      const uid = authUser.uid;
 
       let profilePhotoUrl = 'default';
-      if (user.profilePhoto) {
+      if (profilePhoto) {
         profilePhotoUrl = await uploadProfilePhoto(profilePhoto);
       }
       await db.collection('Users').doc(uid).set({
         email: email,
         name: name,
         profilePhotoUrl: profilePhotoUrl,
+        createdAt: date,
+        modifiedAt: date,
       });
-
       
       setIsLoading(false);
 
@@ -53,7 +56,6 @@ const AuthContextProvider = props => {
         profilePhotoUrl,
         uid,
       }
-      // return {...user, profilePhotoUrl, uid};
     } catch (error) {
       setIsLoading(false);
       console.log('Error @createUser: ', error.message);
@@ -64,9 +66,11 @@ const AuthContextProvider = props => {
   const uploadProfilePhoto = async (uri) => {
     const user = await getCurrentUser()
     const uid = user.uid;
+    const date = moment().format('yyyy-MM-DDThh:mm:ss');
+
     try {
       const photo = await getBlob(uri);
-      const imageRef = storage().ref('profilePhotos').child(uid);
+      const imageRef = storage().ref(`Users/${uid}`).child(`${date}.jpeg`);
       const awaitRes = await imageRef.put(photo);
       const url = await imageRef.getDownloadURL();
       // const awaitResp = await db.collection('Users').doc(uid).update({

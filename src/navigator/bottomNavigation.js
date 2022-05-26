@@ -42,7 +42,7 @@ export default BottomNavigation = ({route}) => {
     return (
         <BottomTab.Navigator
             initialRouteName={screens[selectedIndex]}
-            tabBarOptions={{
+            screenOptions={{
                 style: styles.bar_wrapper,
             }}
         >

@@ -3,6 +3,8 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import moment from 'moment';
+import uuid from 'react-native-uuid';
+
 import { AuthContext } from './AuthContext';
 
 const db = firestore();
@@ -17,9 +19,8 @@ const AppContextProvider = props => {
   const userCollection = db.collection("Users");
   const selectorCollection = db.collection("Selector1-Fields");
   // const postCollection = db.collection("Posts");
-
-  const date = moment(Date()).format('MMMM Do YYYY, h:mm:ss a');
-  console.log('date: ', date);
+  const date = moment().format('yyyy-MM-DDThh:mm:ss');
+  const myUUID =  uuid.v1();
 
   /**
    * GET VERSION
@@ -41,20 +42,18 @@ const uploadPost = async (post) => {
     const user = await authContext.getCurrentUser();
     const uid = user.uid;
 
-    const date = moment(Date()).format('MMMM Do YYYY, h:mm:ss a');
+    const date = moment().format('yyyy-MM-DDThh:mm:ss');
 
     try {
       const photo = await authContext.getBlob(post.photo);
-
       const imageRef = storage().ref(`Posts/${uid}`).child(`${date}.jpeg`);
-
       await imageRef.put(photo);
-
       const url = await imageRef.getDownloadURL();
-      await db.collection('Users').doc(uid).collection('Posts').doc(date).set({
+      await db.collection('Users').doc(uid).collection('Posts').doc(myUUID).set({
         type: post.type,
         photoUrl: url,
         number: post.number,
+        date: date,
       });
     } catch (error) {
       console.log('Error @uploadPost: ', error);
